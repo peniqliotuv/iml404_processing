@@ -9,6 +9,10 @@ class Flock {
   ArrayList<Boid> boids; // An ArrayList for all the boids
   ArrayList<PVector> means;
   ArrayList<Integer> colors;
+  ArrayList<Integer> reds;
+  ArrayList<Integer> blues;
+  ArrayList<Integer> greens;
+  
   int k;
   
   Flock() {
@@ -16,20 +20,33 @@ class Flock {
     boids = new ArrayList<Boid>(); // Initialize the ArrayList
     k = 10;
     means = new ArrayList(k);
+    
     colors = new ArrayList(k);
+    reds = new ArrayList(k);
+    blues = new ArrayList(k);
+    greens = new ArrayList(k);
     
     for (int i = 0; i < k; ++i) {
       means.add(new PVector(random(0, width), random(0, height)));
-      colors.add((int) random(0, 255));
+      reds.add((int) random(0, 255));
+      greens.add((int) random(0, 255));
+      blues.add((int) random(0, 255));
     }  
     println("Finished init flock");
+    for (int i = 0; i < k; ++i) {
+      //println(reds.get(i) + " , " + greens.get(i) + " , " +  blues.get(i));
+      //println(means.get(i).x + ", " + means.get(i).y);
+    }  
   }
 
   void run() {
-    println("Running!");
+    // Keeps track of the cumulative locations for each group;
     ArrayList<PVector> locations = new ArrayList(k);
-    for (int i = 0; i < k; i++) {
+    // Counts the number of boids in each group
+    ArrayList<Integer> counts = new ArrayList(k);
+    for (int i = 0; i < k; ++i) {
       locations.add(new PVector(0, 0));
+      counts.add(0);
     }
     
     for (Boid b : boids) {
@@ -39,23 +56,33 @@ class Flock {
     for (int i = boids.size() - 1; i >= 0; i--) {
       Boid b = boids.get(i);
       if (b.location.x <= 0 || b.location.x >= width || b.location.y <= 0 || b.location.y >= height) {
-        // println("Removing boid " + i);
         boids.remove(i);
       } else {
         // K-Means algorithm
         int idx = calculateIndexOfClosestMean(b);
+        // println(idx);
         b.meanIdx = idx;
-        b.fillColor = colors.get(idx);
+        b.red = reds.get(idx);
+        b.green = greens.get(idx);
+        b.blue = blues.get(idx);
+        
+        // Add each vector's location to the appropriate bucket in the ArrayList
         locations.set(idx, locations.get(idx).add(b.location));
+        counts.set(idx, counts.get(idx) + 1);
       }
-      //if (b.lifespan <= 0)
-      //  boids.remove(i);
       
+     
+      //if (b.lifespan <= 0)
+      //  boids.remove(i); 
     }
     
-    for (int i = 0; i < boids.size(); ++i) {
-      Boid b = boids.get(i);
-      int idx = b.meanIdx;
+    // update means
+    for (int i = 0; i < k; ++i) {
+      int cnt = counts.get(i);
+      if (cnt > 0) {
+        PVector newMean = locations.get(i).div(cnt);
+        means.set(i, newMean);
+      }
       
     }
   }
@@ -64,7 +91,8 @@ class Flock {
     float minDist = Float.MAX_VALUE;
     int idx = 0;
     for (int i = 0; i < k; ++i) {
-      float dist = means.get(i).dist(b.location);
+      float dist = PVector.dist(means.get(i), b.location);
+      //println(means.get(i), b.location, dist);
       if (dist < minDist) {
         minDist = dist;
         idx = i;
@@ -72,6 +100,8 @@ class Flock {
     }
     return idx;
   }
+  
+
   
   void addBoid(Boid b) {
     boids.add(b);

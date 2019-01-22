@@ -13,7 +13,10 @@ class Boid {
   float r;
   float maxforce;    // Maximum steering force
   float maxspeed;    // Maximum speed
-  int fillColor;
+  int red;
+  int blue;
+  int green;
+  
   int meanIdx; // The index of the means array in "Flock"
   
   //float lifespan;
@@ -25,8 +28,10 @@ class Boid {
     r = 3.0;
     maxspeed = 10; // BUMPED UP FOR OPTICAL FLOW
     maxforce = 0.05;
-    fillColor = 255;
     
+    red = 0;
+    green = 0;
+    blue = 0;
     //lifespan = 15;
   }
 
@@ -88,7 +93,7 @@ class Boid {
     // Draw a triangle rotated in the direction of velocity
     float theta = velocity.heading2D() + radians(90);
     //fill(175);
-    fill(fillColor);
+    fill(red, green, blue);
     //stroke(0);
     float r_velocity = velocity.magSq();
     noStroke();
