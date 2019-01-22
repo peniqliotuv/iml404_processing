@@ -53,7 +53,7 @@ class Flock {
     
     for (int i = boids.size() - 1; i >= 0; i--) {
       Boid b = boids.get(i);
-      if (b.location.x <= 0 || b.location.x >= width || b.location.y <= 0 || b.location.y >= height) {
+      if (b.lifespan <= 0 || b.location.x <= 0 || b.location.x >= width || b.location.y <= 0 || b.location.y >= height) {
         boids.remove(i);
       } else {
         // K-Means algorithm

@@ -19,7 +19,7 @@ class Boid {
   
   int meanIdx; // The index of the means array in "Flock"
   
-  //float lifespan;
+  float lifespan;
 
   Boid(float x, float y) {
     acceleration = new PVector(0,0);
@@ -32,7 +32,7 @@ class Boid {
     red = 0;
     green = 0;
     blue = 0;
-    //lifespan = 15;
+    lifespan = 250;
   }
 
   void run(ArrayList<Boid> boids) {
@@ -40,7 +40,7 @@ class Boid {
     update();
     borders();
     render();
-    //lifespan--;
+    lifespan--;
   }
 
   void applyForce(PVector force) {
@@ -93,7 +93,7 @@ class Boid {
     // Draw a triangle rotated in the direction of velocity
     float theta = velocity.heading2D() + radians(90);
     //fill(175);
-    fill(red, green, blue);
+    fill(red, green, blue, lifespan * 4);
     //stroke(0);
     float r_velocity = velocity.magSq();
     noStroke();
