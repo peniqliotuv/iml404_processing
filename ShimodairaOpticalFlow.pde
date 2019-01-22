@@ -38,7 +38,7 @@ class ShimodairaOpticalFlow {
   //boolean flagseg=false; // segmentation of moving objects?
   boolean flagmirror=true; // mirroring image?
   boolean flagflow=false; // draw opticalflow vectors?
-  boolean flagimage=true; // show cam image ?
+  boolean flagimage=false; // show cam image ?
 
   // internally used variables
   float ar, ag, ab; // used as return value of pixave

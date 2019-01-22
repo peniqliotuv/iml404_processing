@@ -44,15 +44,20 @@ void draw() {
   
   // RUN / DRAW THE OPTICAL FLOW CALCULATIONS
   // draw image
-  if (SOF.flagimage) set(0, 0, SOF.cam);
-  else background(120);
+  if (SOF.flagimage) {
+    set(0, 0, SOF.cam);
+  }
+  else {
+    background(55);
+  };
   
   // calculate optical flow
   SOF.calculateFlow(); 
   
   // draw the optical flow vectors
-  if (SOF.flagflow)
+  if (SOF.flagflow) {
     SOF.drawFlow();
+  }
   
   // run through the optical flow and apply the force vectors to nearby boids
   for (int i = 0; i < SOF.flows.size() - 2; i+=2) {
@@ -65,7 +70,7 @@ void draw() {
     // normalize the force vector, then multiply it by some factor 
     force_vector.normalize().mult(3.0);
     
-    Boid new_b = new Boid(force_start.x,force_start.y);
+    Boid new_b = new Boid(force_start.x, force_start.y);
     flock.addBoid(new_b);
     
     // loop through the boids now

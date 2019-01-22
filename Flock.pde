@@ -17,7 +17,7 @@ class Flock {
   Flock() {
     println("Initializing Flock");
     boids = new ArrayList<Boid>(); // Initialize the ArrayList
-    k = 10;
+    k = 5;
     means = new ArrayList(k);
     
     reds = new ArrayList(k);
@@ -86,7 +86,10 @@ class Flock {
       fill(reds.get(i), greens.get(i), blues.get(i), 150);
       strokeWeight(4);
       stroke(reds.get(i), greens.get(i), blues.get(i), 0.25);
-      ellipse(mean.x, mean.y, counts.get(i), counts.get(i));
+      
+      int diameter = counts.get(i) + 20;
+      
+      ellipse(mean.x, mean.y, diameter, diameter);
     }
   }
   
