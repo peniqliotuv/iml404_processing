@@ -8,7 +8,6 @@
 class Flock {
   ArrayList<Boid> boids; // An ArrayList for all the boids
   ArrayList<PVector> means;
-  ArrayList<Integer> colors;
   ArrayList<Integer> reds;
   ArrayList<Integer> blues;
   ArrayList<Integer> greens;
@@ -21,7 +20,6 @@ class Flock {
     k = 10;
     means = new ArrayList(k);
     
-    colors = new ArrayList(k);
     reds = new ArrayList(k);
     blues = new ArrayList(k);
     greens = new ArrayList(k);
@@ -71,9 +69,6 @@ class Flock {
         counts.set(idx, counts.get(idx) + 1);
       }
       
-     
-      //if (b.lifespan <= 0)
-      //  boids.remove(i); 
     }
     
     // update means
@@ -83,7 +78,6 @@ class Flock {
         PVector newMean = locations.get(i).div(cnt);
         means.set(i, newMean);
       }
-      
     }
   }
   
@@ -92,7 +86,6 @@ class Flock {
     int idx = 0;
     for (int i = 0; i < k; ++i) {
       float dist = PVector.dist(means.get(i), b.location);
-      //println(means.get(i), b.location, dist);
       if (dist < minDist) {
         minDist = dist;
         idx = i;
@@ -100,8 +93,6 @@ class Flock {
     }
     return idx;
   }
-  
-
   
   void addBoid(Boid b) {
     boids.add(b);

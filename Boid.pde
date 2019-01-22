@@ -101,9 +101,11 @@ class Boid {
     translate(location.x,location.y);
     rotate(theta);
     beginShape(TRIANGLES);
-    vertex(0, -r_velocity*0.25);
-    vertex(-r_velocity, r_velocity*0.25);
-    vertex(r_velocity, r_velocity*0.25);
+    
+    vertex(0, -r_velocity*0.5);
+    vertex(-0.5 * r_velocity, r_velocity*0.5);
+    vertex(0.5 * r_velocity, r_velocity*0.5);
+    
     endShape();
     popMatrix();
   }
