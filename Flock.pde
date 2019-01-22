@@ -79,6 +79,15 @@ class Flock {
         means.set(i, newMean);
       }
     }
+    
+    // draw means
+    for (int i = 0; i < k; ++i) {
+      PVector mean = means.get(i);
+      fill(reds.get(i), greens.get(i), blues.get(i), 150);
+      strokeWeight(4);
+      stroke(reds.get(i), greens.get(i), blues.get(i), 0.25);
+      ellipse(mean.x, mean.y, counts.get(i), counts.get(i));
+    }
   }
   
   int calculateIndexOfClosestMean(Boid b) {
@@ -93,6 +102,8 @@ class Flock {
     }
     return idx;
   }
+  
+
   
   void addBoid(Boid b) {
     boids.add(b);
