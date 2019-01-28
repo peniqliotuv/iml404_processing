@@ -1,7 +1,7 @@
 /* Class adaption of Optical Flow by Hidetoshi Shimodaira (shimo@is.titech.ac.jp)
-   http://www.openprocessing.org/sketch/10435  2010 GPL
-   Adapted for USC IML 404.  do not delete this reference, required for posting your code  
-*/ 
+ http://www.openprocessing.org/sketch/10435  2010 GPL
+ Adapted for USC IML 404.  do not delete this reference, required for posting your code  
+ */
 
 import processing.video.*;
 
@@ -49,7 +49,7 @@ class ShimodairaOpticalFlow {
   float[] flowx, flowy; // computed optical flow
   float[] sflowx, sflowy; // slowly changing version of the flow
   int clockNow, clockPrev, clockDiff; // for timing check
-  
+
   ArrayList<PVector> flows = new ArrayList<PVector>();
   ArrayList<PVector> flows_color = new ArrayList<PVector>();
 
@@ -242,22 +242,22 @@ class ShimodairaOpticalFlow {
 
       // 4th sweep : draw the flow
       /*if (flagseg) {
-        noStroke();
-        fill(0);
-        for (int ix=0; ix<gw; ix++) {
-          int x0=ix*gs+gs2;
-          for (int iy=0; iy<gh; iy++) {
-            int y0=iy*gs+gs2;
-            int ig=iy*gw+ix;
-
-            float u=df*sflowx[ig];
-            float v=df*sflowy[ig];
-
-            float a=sqrt(u*u+v*v);
-            if (a<2.0) rect(x0, y0, gs, gs);
-          }
-        }
-      }*/
+       noStroke();
+       fill(0);
+       for (int ix=0; ix<gw; ix++) {
+       int x0=ix*gs+gs2;
+       for (int iy=0; iy<gh; iy++) {
+       int y0=iy*gs+gs2;
+       int ig=iy*gw+ix;
+       
+       float u=df*sflowx[ig];
+       float v=df*sflowy[ig];
+       
+       float a=sqrt(u*u+v*v);
+       if (a<2.0) rect(x0, y0, gs, gs);
+       }
+       }
+       }*/
 
       // clear out our stored flow vectors
       for (int i = flows.size() - 1; i >= 0; i--) 
@@ -268,51 +268,50 @@ class ShimodairaOpticalFlow {
       // 5th sweep : draw the flow
       // update the flow vectors
       //if (flagflow) {  
-        for (int ix=0; ix<gw; ix++) {
-          int x0=ix*gs+gs2;
-          for (int iy=0; iy<gh; iy++) {
-            int y0=iy*gs+gs2;
-            int ig=iy*gw+ix;
+      for (int ix=0; ix<gw; ix++) {
+        int x0=ix*gs+gs2;
+        for (int iy=0; iy<gh; iy++) {
+          int y0=iy*gs+gs2;
+          int ig=iy*gw+ix;
 
-            float u=df*sflowx[ig];
-            float v=df*sflowy[ig];
+          float u=df*sflowx[ig];
+          float v=df*sflowy[ig];
 
-            // draw the line segments for optical flow
-            float a=sqrt(u*u+v*v);
-            if (a>=2.0) { // draw only if the length >=2.0
-              float r=0.5*(1.0+u/(a+0.1));
-              float g=0.5*(1.0+v/(a+0.1));
-              float b=0.5*(2.0-(r+g));
+          // draw the line segments for optical flow
+          float a=sqrt(u*u+v*v);
+          if (a>=2.0) { // draw only if the length >=2.0
+            float r=0.5*(1.0+u/(a+0.1));
+            float g=0.5*(1.0+v/(a+0.1));
+            float b=0.5*(2.0-(r+g));
 
-              // instead of drawing the line now, write it to an array list
-              //stroke(255*r, 255*g, 255*b);
-              //line(x0, y0, x0+u, y0+v);
-              // start
-              flows.add(new PVector(x0, y0, 0));
-              flows_color.add(new PVector(255*r, 255*g, 255*b));
-              // end
-              flows.add(new PVector(x0+u, y0+v, 0));
-              flows_color.add(new PVector(255*r, 255*g, 255*b));
-            }
+            // instead of drawing the line now, write it to an array list
+            //stroke(255*r, 255*g, 255*b);
+            //line(x0, y0, x0+u, y0+v);
+            // start
+            flows.add(new PVector(x0, y0, 0));
+            flows_color.add(new PVector(255*r, 255*g, 255*b));
+            // end
+            flows.add(new PVector(x0+u, y0+v, 0));
+            flows_color.add(new PVector(255*r, 255*g, 255*b));
           }
         }
+      }
       //}
     }
     // The following does the same, and is faster when just drawing the image
     // without any additional resizing, transformations, or tint.
     //set(0, 0, cam);
   }
-  
+
   void drawFlow() {
     for (int i = 0; i < flows.size() - 2; i+=2) {
       PVector force_start = flows.get(i);
       PVector force_end = flows.get(i+1);
-      
+
       PVector force_color = flows_color.get(i);
       //println ("force from " + force_start + " to " + force_end);
       stroke(force_color.x, force_color.y, force_color.z);
       line (force_start.x, force_start.y, force_end.x, force_end.y);
     }
   }
-  
 }
