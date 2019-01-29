@@ -27,14 +27,14 @@ class Boid {
     velocity = new PVector(random(-1, 1), random(-1, 1));
     location = new PVector(x, y);
     r = 3.0;
-    maxspeed = 10; // BUMPED UP FOR OPTICAL FLOW
+    maxspeed = 15; // BUMPED UP FOR OPTICAL FLOW
     maxforce = 0.05;
 
     red = 0;
     green = 0;
     blue = 0;
     fillColor = 0;
-    lifespan = 250;
+    lifespan = 125;
   }
 
   void run(ArrayList<Boid> boids, Boolean hideBoid) {
@@ -70,7 +70,7 @@ class Boid {
   // Method to update location
   void update() {
     // Update velocity
-    velocity.add(acceleration);
+    velocity.add(acceleration.mult(1.6));
     // Limit speed
     velocity.limit(maxspeed);
     location.add(velocity);
@@ -97,7 +97,7 @@ class Boid {
     // Draw a triangle rotated in the direction of velocity
     float theta = velocity.heading2D() + radians(90);
     //fill(175);
-    fill(fillColor, lifespan * 4);
+    fill(fillColor, lifespan * 2);
     //stroke(0);
     float r_velocity = velocity.magSq();
     noStroke();
@@ -106,9 +106,9 @@ class Boid {
     rotate(theta);
     beginShape(TRIANGLES);
 
-    vertex(0, -r_velocity*0.5);
-    vertex(-0.5 * r_velocity, r_velocity*0.5);
-    vertex(0.5 * r_velocity, r_velocity*0.5);
+    vertex(0, -r_velocity*0.25);
+    vertex(-0.25 * r_velocity, r_velocity*0.25);
+    vertex(0.25 * r_velocity, r_velocity*0.25);
 
     endShape();
     popMatrix();

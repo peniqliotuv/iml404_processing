@@ -34,9 +34,8 @@ class Flock {
     this.keepTraces = false;
     this.drawGraph = false;
 
-    this.reds = new ArrayList(k);
-    this.blues = new ArrayList(k);
-    this.greens = new ArrayList(k);
+
+    
     this.colors = new ArrayList(k);
     this.allLines = new ArrayList();
 
@@ -45,9 +44,9 @@ class Flock {
     
     for (int i = 0; i < k; ++i) {
       means.add(new PVector(random(0, width), random(0, height)));
-      reds.add((int) random(0, 255));
-      greens.add((int) random(0, 255));
-      blues.add((int) random(0, 255));
+      //reds.add((int) random(0, 255));
+      //greens.add((int) random(0, 255));
+      //blues.add((int) random(0, 255));
       colors.add(lerpColor(white, black, (float)(i+1) / k));
     }
 
@@ -55,14 +54,7 @@ class Flock {
   }
 
   void pickRandomColors() {
-    reds.clear();
-    greens.clear();
-    blues.clear();
-    for (int i = 0; i < k; ++i) {
-      reds.add((int) random(0, 255));
-      greens.add((int) random(0, 255));
-      blues.add((int) random(0, 255));
-    }
+
   }
 
   void toggleKeepTraces() {
@@ -89,7 +81,8 @@ class Flock {
 
 
     beginShape(LINES);
-
+    strokeWeight(1);
+    
     for (int i = boids.size() - 1; i >= 0; i--) {
       Boid b = boids.get(i);
       if (b.lifespan <= 0 || b.location.x <= 0 || b.location.x >= width || b.location.y <= 0 || b.location.y >= height) {
@@ -99,9 +92,7 @@ class Flock {
         int idx = calculateIndexOfClosestMean(b);
         // println(idx);
         b.meanIdx = idx;
-        b.red = reds.get(idx);
-        b.green = greens.get(idx);
-        b.blue = blues.get(idx);
+       
         b.fillColor = colors.get(idx);
 
         // Add each vector's location to the appropriate bucket in the ArrayList
@@ -155,6 +146,15 @@ class Flock {
       //int diameter = counts.get(i) + 20;
       int diameter = 20;
       ellipse(mean.x, mean.y, diameter, diameter);
+      //stroke(40, 40, 90);
+      //strokeWeight(10);
+      //if (i != k-1) {
+      //  println(mean.x, mean.y, means.get(i+1).x, means.get(i+1).y);
+      //  line(mean.x, mean.y, means.get(i+1).x, means.get(i+1).y);
+      //} else {
+      //  line(mean.x, mean.y, means.get(0).x, means.get(0).y);
+      //}
+    
     }
   }
 

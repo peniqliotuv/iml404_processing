@@ -31,11 +31,11 @@ class Line {
   
   
   public void draw() {
-    strokeWeight(1);
-    stroke(this.lineColor, 5 * this.life);
-    //line(this.xStart, this.yStart, this.xEnd, this.yEnd);
+  
+    stroke(this.lineColor, 3 * this.life);
     vertex(this.xStart, this.yStart);
     vertex(this.xEnd, this.yEnd);
+   
     --life;
   }
   
