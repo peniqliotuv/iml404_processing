@@ -16,6 +16,7 @@ class Boid {
   int red;
   int blue;
   int green;
+  int fillColor;
 
   int meanIdx; // The index of the means array in "Flock"
 
@@ -32,6 +33,7 @@ class Boid {
     red = 0;
     green = 0;
     blue = 0;
+    fillColor = 0;
     lifespan = 250;
   }
 
@@ -95,7 +97,7 @@ class Boid {
     // Draw a triangle rotated in the direction of velocity
     float theta = velocity.heading2D() + radians(90);
     //fill(175);
-    fill(red, green, blue, lifespan * 4);
+    fill(fillColor, lifespan * 4);
     //stroke(0);
     float r_velocity = velocity.magSq();
     noStroke();

@@ -10,8 +10,8 @@ ShimodairaOpticalFlow SOF;
 Flock flock;
 
 void setup() {
-  size(960, 540);
-
+  size(960, 540, P3D);
+  
   // OPTICAL FLOW SETUP
   String[] cameras = Capture.list();
   if (cameras.length == 0) {
@@ -30,13 +30,8 @@ void setup() {
     SOF = new ShimodairaOpticalFlow(cam);
   }
 
-  // FLOCKING SETUP
   flock = new Flock();
-  // Add an initial set of boids into the system
-  //for (int i = 0; i < 200; i++) {
-  //  Boid b = new Boid(width/2,height/2);
-  //  flock.addBoid(b);
-  //}
+
 }
 
 void draw() {
@@ -47,7 +42,7 @@ void draw() {
   if (SOF.flagimage) {
     set(0, 0, SOF.cam);
   } else {
-    background(40);
+    background(255);
   };
 
   // calculate optical flow
@@ -102,6 +97,9 @@ void keyPressed() {
   }
   else if (key == 'r') {
     flock.pickRandomColors();
+  }
+  else if (key == 'g') {
+    flock.drawGraph = !flock.drawGraph;
   }
  
 }

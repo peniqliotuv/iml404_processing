@@ -9,13 +9,15 @@ class Line {
   float green;
   float blue;
   
-  int life = 5;
+  int lineColor;
+  int life = 25;
   
-  Line(float xStart, float yStart, float xEnd, float yEnd) {
+  Line(float xStart, float yStart, float xEnd, float yEnd, int lineColor) {
     this.xStart = xStart;
     this.yStart = yStart;
     this.xEnd = xEnd;
     this.yEnd = yEnd;
+    this.lineColor = lineColor;
     this.red = 0;
     this.green = 0;
     this.blue = 0;
@@ -27,11 +29,13 @@ class Line {
     this.blue = blue;
   }
   
+  
   public void draw() {
     strokeWeight(1);
-    stroke(this.red, this.green, this.blue, 25 * this.life);
-    line(this.xStart, this.yStart, this.xEnd, this.yEnd);
-    
+    stroke(this.lineColor, 5 * this.life);
+    //line(this.xStart, this.yStart, this.xEnd, this.yEnd);
+    vertex(this.xStart, this.yStart);
+    vertex(this.xEnd, this.yEnd);
     --life;
   }
   
