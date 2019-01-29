@@ -94,6 +94,16 @@ void keyPressed() {
   if (key=='m') SOF.flagmirror=!SOF.flagmirror; // mirror on/off
   else if (key=='i') SOF.flagimage=!SOF.flagimage; // show video on/off
   else if (key=='f') SOF.flagflow=!SOF.flagflow; // show opticalflow on/off
+  else if (key == 'h') {
+    flock.hideBoids = !flock.hideBoids;
+  }
+  else if (key == 'k') {
+    flock.toggleKeepTraces();
+  }
+  else if (key == 'r') {
+    flock.pickRandomColors();
+  }
+ 
 }
 
 // Add a new boid into the System

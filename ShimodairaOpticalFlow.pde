@@ -260,10 +260,10 @@ class ShimodairaOpticalFlow {
        }*/
 
       // clear out our stored flow vectors
-      for (int i = flows.size() - 1; i >= 0; i--) 
+      for (int i = flows.size() - 1; i >= 0; i--)  {
         flows.remove(i);
-      for (int i = flows_color.size() - 1; i >= 0; i--) 
         flows_color.remove(i);
+      }
 
       // 5th sweep : draw the flow
       // update the flow vectors
@@ -279,7 +279,7 @@ class ShimodairaOpticalFlow {
 
           // draw the line segments for optical flow
           float a=sqrt(u*u+v*v);
-          if (a>=2.0) { // draw only if the length >=2.0
+          if (a >= 2.0) { // draw only if the length >=2.0
             float r=0.5*(1.0+u/(a+0.1));
             float g=0.5*(1.0+v/(a+0.1));
             float b=0.5*(2.0-(r+g));
