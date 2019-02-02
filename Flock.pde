@@ -15,6 +15,7 @@ class Flock {
   ArrayList<Integer> colors;
 
   ArrayList<Line> allLines;
+  ArrayList<ArrayList<Line>> linesByClass;
 
   int k;
 
@@ -24,6 +25,8 @@ class Flock {
   Boolean keepTraces;
   // Draw graph between each boid
   Boolean drawGraph;
+  // Draw complete graph
+  Boolean drawCompleteGraph;
 
   Flock() {
     println("Initializing Flock");
@@ -33,28 +36,22 @@ class Flock {
     this.hideBoids = false;
     this.keepTraces = false;
     this.drawGraph = false;
+    this.drawCompleteGraph = false;
 
-
-    
-    this.colors = new ArrayList(k);
+    this.colors = new ArrayList(this.k);
     this.allLines = new ArrayList();
+    this.linesByClass = new ArrayList(this.k);
 
     int white = color(255, 255, 255);
     int black = color(0, 0, 0);
     
     for (int i = 0; i < k; ++i) {
       means.add(new PVector(random(0, width), random(0, height)));
-      //reds.add((int) random(0, 255));
-      //greens.add((int) random(0, 255));
-      //blues.add((int) random(0, 255));
       colors.add(lerpColor(white, black, (float)(i+1) / k));
+      this.linesByClass.add(new ArrayList<Line>());
     }
 
     println("Finished init flock");
-  }
-
-  void pickRandomColors() {
-
   }
 
   void toggleKeepTraces() {
@@ -73,6 +70,7 @@ class Flock {
     for (int i = 0; i < k; ++i) {
       locations.add(new PVector(0, 0));
       counts.add(0);
+      this.linesByClass.get(i).clear();
     }
 
     for (Boid b : boids) {
@@ -98,15 +96,22 @@ class Flock {
         // Add each vector's location to the appropriate bucket in the ArrayList
         locations.set(idx, locations.get(idx).add(b.location));
         counts.set(idx, counts.get(idx) + 1);
+        
+      
         // Draw a line between the mean and the boid
 
         Line line = new Line(b.location.x, b.location.y, means.get(idx).x, means.get(idx).y, colors.get(idx));
         //line.setColor(reds.get(idx), greens.get(idx), blues.get(idx));  
+        this.linesByClass.get(idx).add(line);
         if (this.keepTraces) {
-          allLines.add(line);
+          this.allLines.add(line);
         } else {
           line.draw();
         }
+        
+        
+        
+        
 
         //strokeWeight(1);
         //stroke(reds.get(idx), greens.get(idx), blues.get(idx), 120);
@@ -123,7 +128,12 @@ class Flock {
         }
       }
     }
-
+    
+    if (this.drawCompleteGraph) {
+      drawCompleteGraphs();
+    }
+    
+    
     endShape(LINES);
 
     // update means
@@ -146,15 +156,6 @@ class Flock {
       //int diameter = counts.get(i) + 20;
       int diameter = 20;
       ellipse(mean.x, mean.y, diameter, diameter);
-      //stroke(40, 40, 90);
-      //strokeWeight(10);
-      //if (i != k-1) {
-      //  println(mean.x, mean.y, means.get(i+1).x, means.get(i+1).y);
-      //  line(mean.x, mean.y, means.get(i+1).x, means.get(i+1).y);
-      //} else {
-      //  line(mean.x, mean.y, means.get(0).x, means.get(0).y);
-      //}
-    
     }
   }
 
@@ -173,5 +174,24 @@ class Flock {
 
   void addBoid(Boid b) {
     boids.add(b);
+  }
+  
+  void drawCompleteGraphs() {
+    
+    strokeWeight(0.25);
+    for (int i = 0; i < this.k; ++i) {
+      ArrayList<Line> lines = this.linesByClass.get(i);
+      if (!lines.isEmpty()) {
+        stroke(colors.get(i), lines.get(0).life * 3);
+        for (int j = 0; j < lines.size(); j++) {
+          for (int k = 0; k < lines.size(); k++) {
+            if (j != k) {
+              vertex(lines.get(j).xStart, lines.get(j).yStart);
+              vertex(lines.get(k).xStart, lines.get(k).yStart);
+            }
+          }
+        }
+      }
+    }
   }
 }

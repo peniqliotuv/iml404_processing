@@ -101,7 +101,9 @@ void keyPressed() {
   else if (key == 'g') {
     flock.drawGraph = !flock.drawGraph;
   }
- 
+  else if (key == 'n') {
+    flock.drawCompleteGraph = !flock.drawCompleteGraph;
+  }
 }
 
 // Add a new boid into the System
