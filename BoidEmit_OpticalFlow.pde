@@ -95,9 +95,6 @@ void keyPressed() {
   else if (key == 'k') {
     flock.toggleKeepTraces();
   }
-  else if (key == 'r') {
-    flock.pickRandomColors();
-  }
   else if (key == 'g') {
     flock.drawGraph = !flock.drawGraph;
   }
