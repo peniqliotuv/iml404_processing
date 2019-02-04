@@ -51,9 +51,10 @@ class ShimodairaOpticalFlow {
   int clockNow, clockPrev, clockDiff; // for timing check
 
   ArrayList<PVector> flows = new ArrayList<PVector>();
-  ArrayList<PVector> flows_color = new ArrayList<PVector>();
+  //ArrayList<PVector> flows_color = new ArrayList<PVector>();
 
-
+  int black = color(0, 0, 0);
+  
   ShimodairaOpticalFlow(Capture camera) {
     cam = camera;
 
@@ -260,10 +261,11 @@ class ShimodairaOpticalFlow {
        }*/
 
       // clear out our stored flow vectors
-      for (int i = flows.size() - 1; i >= 0; i--) 
-        flows.remove(i);
-      for (int i = flows_color.size() - 1; i >= 0; i--) 
-        flows_color.remove(i);
+      //for (int i = flows.size() - 1; i >= 0; i--)  {
+      //  flows.remove(i);
+      //  flows_color.remove(i);
+      //}
+      flows.clear();
 
       // 5th sweep : draw the flow
       // update the flow vectors
@@ -274,12 +276,12 @@ class ShimodairaOpticalFlow {
           int y0=iy*gs+gs2;
           int ig=iy*gw+ix;
 
-          float u=df*sflowx[ig];
-          float v=df*sflowy[ig];
+          float u = df * sflowx[ig];
+          float v = df * sflowy[ig];
 
           // draw the line segments for optical flow
           float a=sqrt(u*u+v*v);
-          if (a>=2.0) { // draw only if the length >=2.0
+          if (a >= 2.0) { // draw only if the length >=2.0
             float r=0.5*(1.0+u/(a+0.1));
             float g=0.5*(1.0+v/(a+0.1));
             float b=0.5*(2.0-(r+g));
@@ -289,10 +291,10 @@ class ShimodairaOpticalFlow {
             //line(x0, y0, x0+u, y0+v);
             // start
             flows.add(new PVector(x0, y0, 0));
-            flows_color.add(new PVector(255*r, 255*g, 255*b));
+            //flows_color.add(new PVector(255*r, 255*g, 255*b));
             // end
-            flows.add(new PVector(x0+u, y0+v, 0));
-            flows_color.add(new PVector(255*r, 255*g, 255*b));
+            flows.add(new PVector(x0 + u, y0 + v, 0));
+            //flows_color.add(new PVector(255*r, 255*g, 255*b));
           }
         }
       }
@@ -304,14 +306,15 @@ class ShimodairaOpticalFlow {
   }
 
   void drawFlow() {
+    beginShape(LINES);
+    stroke(black);
     for (int i = 0; i < flows.size() - 2; i+=2) {
       PVector force_start = flows.get(i);
       PVector force_end = flows.get(i+1);
 
-      PVector force_color = flows_color.get(i);
-      //println ("force from " + force_start + " to " + force_end);
-      stroke(force_color.x, force_color.y, force_color.z);
-      line (force_start.x, force_start.y, force_end.x, force_end.y);
+      vertex(force_start.x, force_start.y);
+      vertex(force_end.x, force_end.y);
     }
+    endShape(LINES);
   }
 }
